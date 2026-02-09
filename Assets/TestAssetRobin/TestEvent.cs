@@ -16,7 +16,7 @@ public class TestEvent : MonoBehaviour
         
     }
 
-    void debugTest()
+    public void debugTest()
     {
         Debug.Log("Coucou");
     }
