@@ -61,7 +61,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 95b743d67fa5e06479e5fd19a23f9246, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Scale: {x: 100, y: 100}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -111,10 +111,10 @@ Material:
     - _FoamAmount: 1
     - _FoamBubbleScale: 5
     - _FoamBubbleSpeed: 0.2
-    - _FoamCutoff: 0.52
+    - _FoamCutoff: 0.998
     - _FoamEdgeBlend: 1
     - _FoamLineWidth: 0.1
-    - _FoamNoiseScale: 1.99
+    - _FoamNoiseScale: 12.42
     - _FoamSoftness: 0.05
     - _FoamSpeed: 2.89
     - _FoamWidth: 0.1
