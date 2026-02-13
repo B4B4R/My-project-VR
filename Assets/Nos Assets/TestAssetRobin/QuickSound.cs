@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class QuickSound : MonoBehaviour
 {
@@ -11,8 +12,14 @@ public class QuickSound : MonoBehaviour
     public float volume = 1f;
     public float randomPitchRange = 0f;
 
-    [Header("Start Time (seconds)")]
+    [Header("Start/End Time (seconds)")]
     public float startTime = 0f; // Temps où le son commence
+    public float endTime = 0f;   // Temps où le son doit s'arrêter (0 = fin naturelle)
+
+    [Header("Sound / Quick Action")]
+    public UnityEvent quickSoundFunction;
+
+    private bool isStoppingScheduled = false;
 
     public void Play()
     {
@@ -28,9 +35,35 @@ public class QuickSound : MonoBehaviour
         }
         audioSource.pitch = pitch;
 
-        // On commence le son à startTime
+        // Clamp startTime
         audioSource.time = Mathf.Clamp(startTime, 0f, sound.length);
 
         audioSource.Play();
+        quickSoundFunction?.Invoke();
+
+        // Si endTime est défini et inférieur à la longueur du son, on planifie l'arrêt
+        if (endTime > 0f && endTime > startTime)
+        {
+            if (!isStoppingScheduled)
+            {
+                isStoppingScheduled = true;
+                float duration = Mathf.Clamp(endTime - startTime, 0f, sound.length - startTime);
+                Invoke(nameof(StopAudio), duration);
+            }
+        }
+    }
+
+    private void StopAudio()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        isStoppingScheduled = false;
+    }
+
+    public bool IsPlaying
+    {
+        get { return audioSource.isPlaying; }
     }
 }
