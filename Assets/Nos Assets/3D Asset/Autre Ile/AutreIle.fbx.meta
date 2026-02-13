@@ -3,7 +3,72 @@ guid: 65dfaf0426d317448aa30bca8ac6cb82
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Clouds
+    second: {fileID: 2100000, guid: 25baaceee4c8aab41a56737aaba820e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Island_Grass
+    second: {fileID: 2100000, guid: 7dacf6f0b7dcd7a468f27af606e2c89b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palm tree_1
+    second: {fileID: 2100000, guid: 526c4dfcaf4a6d741952f491dea19348, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palm tree_2
+    second: {fileID: 2100000, guid: f3a11202d95023243afe386ccbfed920, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pyramid
+    second: {fileID: 2100000, guid: ac1d9cd536957bf4f97f8f1a2adfe81c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tequila_Bottle
+    second: {fileID: 2100000, guid: 2e845e9d94d35a348be21c52241777c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Volacano_Sand
+    second: {fileID: 2100000, guid: 5c06e566c066d874eb8e8c378364be0f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Volcanic_lava
+    second: {fileID: 2100000, guid: 692b15a6e0636ab49a7eb686c6a735cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Volcano_Base
+    second: {fileID: 2100000, guid: 79637ad5412c3e84ca5fd581d775f200, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Volcano_Grass
+    second: {fileID: 2100000, guid: abb03e6defcd7fb4d99fb89531dad0c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hammock
+    second: {fileID: 2100000, guid: 4341616261a2d0746bddff4c65bbe682, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shrubbery
+    second: {fileID: 2100000, guid: 8a650763f39fc5141836eb35d0f68e33, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skeleton
+    second: {fileID: 2100000, guid: 6b20c0ae49675df4b8f680c2df848f50, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
