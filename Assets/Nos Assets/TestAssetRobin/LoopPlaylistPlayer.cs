@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class LoopPlaylistPlayer : MonoBehaviour
 {
+    [Tooltip("Base")]
+    public float Volume = 0.1f;
     [Tooltip("Liste des musiques à jouer")]
     public AudioClip[] playlist;
 
@@ -13,17 +15,22 @@ public class LoopPlaylistPlayer : MonoBehaviour
     private AudioSource audioSource;
     private int currentIndex = 0;
 
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.1f;       // Valeur initiale souhaitée
+        audioSource.playOnAwake = false; // Empêche le son de jouer tout seul
+        audioSource.loop = false;        // On gère la boucle nous-mêmes
+    }
 
+    void Start()
+    {
         if (playlist == null || playlist.Length == 0)
         {
             Debug.LogWarning("La playlist est vide !");
             return;
         }
 
-        audioSource.loop = false; // On gère la boucle nous-mêmes
         StartCoroutine(PlayPlaylist());
     }
 
@@ -47,30 +54,33 @@ public class LoopPlaylistPlayer : MonoBehaviour
     IEnumerator FadeIn(AudioClip clip)
     {
         audioSource.clip = clip;
-        audioSource.volume = 0;
+        float targetVolume = Volume; // Volume maximal du fade
+        float timer = 0f;
         audioSource.Play();
 
-        float timer = 0f;
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(0, 1, timer / fadeDuration);
+            audioSource.volume = Mathf.Lerp(0.1f, targetVolume, timer / fadeDuration);
             yield return null;
         }
-        audioSource.volume = 1;
+
+        audioSource.volume = targetVolume;
     }
 
     IEnumerator FadeOut()
     {
         float startVolume = audioSource.volume;
         float timer = 0f;
+
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(startVolume, 0, timer / fadeDuration);
+            audioSource.volume = Mathf.Lerp(startVolume, 0.1f, timer / fadeDuration);
             yield return null;
         }
-        audioSource.volume = 0;
+
+        audioSource.volume = 0.1f; // Volume minimum après le fade
         audioSource.Stop();
     }
 }

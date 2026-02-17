@@ -13,6 +13,8 @@ public class GeyserManager : MonoBehaviour
         public GameObject linkedObject;
     }
 
+    public HistoireBase histoireBase;
+
     public List<Geyser> geysers = new List<Geyser>();
 
     public bool geyserActive = true;
@@ -155,6 +157,27 @@ public class GeyserManager : MonoBehaviour
         StartCoroutine(EventSequence());
     }
 
+    public void ActivateGeyserRoutine()
+    {
+        geyserActive = true;
+
+        if (geyserLoopCoroutine != null)
+        {
+            StopCoroutine(geyserLoopCoroutine);
+        }
+
+        // Active toujours le premier geyser avant de commencer la boucle
+        if (geysers.Count > 0)
+        {
+            StartCoroutine(ActivateGeyser(geysers[0]));
+        }
+
+        // Redémarre ensuite la boucle aléatoire
+        geyserLoopCoroutine = StartCoroutine(GeyserLoop());
+    }
+
+
+
     IEnumerator EventSequence()
     {
         geyserActive = false;
@@ -201,5 +224,6 @@ public class GeyserManager : MonoBehaviour
         // Réactive le système normal
         geyserActive = true;
         geyserLoopCoroutine = StartCoroutine(GeyserLoop());
+        histoireBase.Histoire6();
     }
 }
