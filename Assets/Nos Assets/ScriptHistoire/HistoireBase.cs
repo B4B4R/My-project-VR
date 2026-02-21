@@ -17,6 +17,9 @@ public class HistoireBase : MonoBehaviour
     public AudioClip son7;
     public AudioClip son8;
 
+    public AudioClip sonUnique;
+    private bool uniqueAudioJoue = false;
+
     [Header("Volume")]
     [Range(0f, 1f)]
     public float volume = 1f;
@@ -198,4 +201,45 @@ public class HistoireBase : MonoBehaviour
         if (numeroEtape == 4)
             Histoire4();
     }
+
+    public void JouerAudioUnique()
+    {
+        if (uniqueAudioJoue)
+        {
+            Debug.LogWarning("[Histoire] Audio unique déjà joué.");
+            return;
+        }
+
+        if (sonUnique == null)
+        {
+            Debug.LogWarning("[Histoire] Audio unique non assigné.");
+            return;
+        }
+
+        // S'assure que le companion est actif
+        if (!floatingCompanion.gameObject.activeInHierarchy)
+            floatingCompanion.gameObject.SetActive(true);
+
+        // Lance la coroutine qui attend la fin des autres sons
+        StartCoroutine(JouerAudioUniqueCoroutine());
+    }
+
+    private IEnumerator JouerAudioUniqueCoroutine()
+    {
+        AudioSource source = floatingCompanion.GetComponent<AudioSource>();
+        if (source == null)
+            source = floatingCompanion.gameObject.AddComponent<AudioSource>();
+
+        // Attendre que le compagnon ait fini tout autre son
+        while (source.isPlaying)
+        {
+            yield return null;
+        }
+
+        // Jouer l'audio unique
+        source.PlayOneShot(sonUnique, volume);
+        uniqueAudioJoue = true;
+        Debug.Log("[Histoire] Audio unique joué après la fin des autres sons.");
+    }
+
 }

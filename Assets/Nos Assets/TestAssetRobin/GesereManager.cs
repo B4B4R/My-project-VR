@@ -182,15 +182,27 @@ public class GeyserManager : MonoBehaviour
     {
         geyserActive = false;
 
-        yield return new WaitForSeconds(15f);
-        // Désactive complètement le système
-
+        // Stop la boucle de geysers
         if (geyserLoopCoroutine != null)
             StopCoroutine(geyserLoopCoroutine);
 
+        // Désactive tous les geysers
         DisableAllGeysers();
 
-        // Active le premier geyser pendant 10 secondes
+        // Joue le son de tremblement avant d'afficher l'objet final
+        if (histoireBase.objetTremblement != null && histoireBase.sonTremblement != null)
+        {
+            AudioSource source = histoireBase.objetTremblement.GetComponent<AudioSource>();
+            if (source == null)
+                source = histoireBase.objetTremblement.AddComponent<AudioSource>();
+            source.PlayOneShot(histoireBase.sonTremblement, 1f); // volume à ajuster si besoin
+            Debug.Log("[Histoire] Son tremblement de terre joué.");
+
+            // Optionnel : attendre la durée du son
+            yield return new WaitForSeconds(histoireBase.sonTremblement.length);
+        }
+
+        // Active le premier geyser pendant 10 secondes si besoin
         if (geysers.Count > 0)
         {
             Geyser firstGeyser = geysers[0];
@@ -200,26 +212,26 @@ public class GeyserManager : MonoBehaviour
             DeactivateSingleGeyser(firstGeyser);
         }
 
-        // Active l'objet final
+        // Active l'objet final avec physique
         if (objectToActivateAfterEvent != null)
         {
             objectToActivateAfterEvent.SetActive(true);
 
-            // Ajout d'une vitesse de rotation aléatoire
             Rigidbody rb = objectToActivateAfterEvent.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // Expulsion verticale
-                float verticalForce = Random.Range(5f, 10f); // Force verticale aléatoire
+                float verticalForce = Random.Range(5f, 10f);
                 rb.velocity = Vector3.up * verticalForce;
 
-                // Vitesse de rotation aléatoire
                 float randomRotationX = Random.Range(-360f, 360f);
                 float randomRotationY = Random.Range(-360f, 360f);
                 float randomRotationZ = Random.Range(-360f, 360f);
-                rb.angularVelocity = new Vector3(randomRotationX, randomRotationY, randomRotationZ) * Mathf.Deg2Rad; // Converti en radians
+                rb.angularVelocity = new Vector3(randomRotationX, randomRotationY, randomRotationZ) * Mathf.Deg2Rad;
             }
         }
+
+ 
+
 
         // Réactive le système normal
         geyserActive = true;

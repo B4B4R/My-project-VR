@@ -170,20 +170,32 @@ public class PolaroidCamera : MonoBehaviour
         Ray ray = new Ray(rayOrigin.position, rayOrigin.forward);
 
         if (debugRay)
-            Debug.DrawRay(
-                rayOrigin.position,
-                rayOrigin.forward * rayDistance,
-                Color.red,
-                2f
-            );
+            Debug.DrawRay(rayOrigin.position, rayOrigin.forward * rayDistance, Color.red, 2f);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
+        // Raycast simple pour tester le premier objet
+        if (Physics.Raycast(ray, out RaycastHit firstHit, rayDistance))
         {
-            LancerEventFromPhoto eventScript =
-                hit.collider.GetComponent<LancerEventFromPhoto>();
+            // Si le premier objet a le tag "Wall", on fait un RaycastAll
+            if (firstHit.collider.CompareTag("Wall"))
+            {
+                RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance);
+                // Tri par distance pour traiter dans l'ordre d'apparition
+                System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
-            if (eventScript != null)
-                eventScript.TriggerAllEvents();
+                foreach (RaycastHit hit in hits)
+                {
+                    LancerEventFromPhoto eventScript = hit.collider.GetComponent<LancerEventFromPhoto>();
+                    if (eventScript != null)
+                        eventScript.TriggerAllEvents();
+                }
+            }
+            else
+            {
+                // Sinon, on déclenche l'événement sur le premier objet uniquement
+                LancerEventFromPhoto eventScript = firstHit.collider.GetComponent<LancerEventFromPhoto>();
+                if (eventScript != null)
+                    eventScript.TriggerAllEvents();
+            }
         }
     }
 }
